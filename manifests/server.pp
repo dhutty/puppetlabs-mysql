@@ -30,6 +30,14 @@ class mysql::server (
 
   create_resources( 'class', $config_class )
 
+  if $package_name == 'mysql55-server' {
+    class {'mysql':
+      package_name => 'mysql55'
+    }
+    Package ['mysql_client'] -> Package['mysql-server']
+  }
+
+
   package { 'mysql-server':
     ensure => $package_ensure,
     name   => $package_name,
